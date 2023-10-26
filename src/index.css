@@ -1,0 +1,36 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family:  Helvetica, Arial,sans-serif;
+    
+
+}
+
+body{
+    /* background: #FFC017; */
+    
+}
+
+.navbarHeader{
+    width: 100vw;
+    /* text-align: center; */
+    
+}
+
+.userProfileButton{
+    /* font-size: 300px !important;
+    background-color: red; */
+}
+
+#myButton{
+    background-color: #000;
+    border-radius: 100px;
+    color: #fff;
+    padding: 5px 25px;
+}
+
+
+
+
+

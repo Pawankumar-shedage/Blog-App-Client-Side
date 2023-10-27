@@ -1,6 +1,8 @@
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../index.css";
 
 export const MainHeroSection = () => {
   const mainContainer = {
@@ -19,22 +21,20 @@ export const MainHeroSection = () => {
     };
   }, []);
 
-  const beInspired = {
-    fontSize: "120px",
-  };
-
-  const tagLine = {
-    fontSize: "40px",
+  // Create post
+  const navigate = useNavigate();
+  const handleCreatePost = () => {
+    navigate("/createPost");
   };
 
   return (
     <>
       <div className="container" style={mainContainer}>
-        <h1 className="text-center" style={beInspired}>
-          Be Inspired
+        <h1 className="text-center beInspired">
+          <span className="beInspired">Be Inspired</span>
         </h1>
         <br />
-        <h3 className="text-center " style={tagLine}>
+        <h3 className="text-center tagline">
           Discover stories, thinking, and expertise from writers on any topic.
         </h3>
         <br />
@@ -44,7 +44,11 @@ export const MainHeroSection = () => {
             Start Reading
           </button>{" "}
           &nbsp;
-          <button className="btn text-center" id="myButton">
+          <button
+            className="btn text-center"
+            onClick={handleCreatePost}
+            id="myButton"
+          >
             <FontAwesomeIcon icon={faPencil} /> &nbsp; Create Post
           </button>
         </div>

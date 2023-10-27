@@ -16,8 +16,8 @@ export const MyNavbar = () => {
         style={{ backgroundColor: "#FFC017" }}
         // style={{ display: "flex", justifyContent: "space-evenly" }}
       >
-        <div className="container  ">
-          <Link className="navbar-brand me-5 pe-5 fw-bold fs-2" to="#">
+        <div className="container">
+          <Link className="navbar-brand me-5  pe-5 fw-bold fs-2" to="#">
             Get Hooked
           </Link>
 
@@ -34,7 +34,7 @@ export const MyNavbar = () => {
           </button>
 
           <div
-            className="collapse navbar-collapse ms-auto d-flex ps-5"
+            className="collapse navbar-collapse "
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav ms-5 mb-2 mb-lg-0">
@@ -48,7 +48,7 @@ export const MyNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fw-semibold" to="/about">
+                <Link className="nav-link fw-semibold" to="/">
                   About
                 </Link>
               </li>
@@ -58,8 +58,8 @@ export const MyNavbar = () => {
                 </Link>
               </li>
               <button
+                className="btn  fw-regular"
                 onClick={handleClick}
-                className="btn fw-regular"
                 id="myButton"
               >
                 Get Started
@@ -78,6 +78,7 @@ export const MyNavbar = () => {
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </form>
+              <br />
               <button className="btn userProfileButton">
                 <FontAwesomeIcon icon={faUser} />
               </button>

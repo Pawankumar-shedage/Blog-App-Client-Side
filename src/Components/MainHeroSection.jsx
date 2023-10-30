@@ -27,6 +27,15 @@ export const MainHeroSection = () => {
     navigate("/createPost");
   };
 
+  //TO add fun() check if user is logged  in or if not then take him to login page.
+  const scrollToElement = () => {
+    const element = document.querySelector(".blogs");
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <div className="container" style={mainContainer}>
@@ -40,9 +49,13 @@ export const MainHeroSection = () => {
         <br />
         <br />
         <div>
-          <button className="btn text-center" id="myButton">
+          <button
+            className="btn text-center"
+            id="myButton"
+            onClick={scrollToElement}
+          >
             Start Reading
-          </button>{" "}
+          </button>
           &nbsp;
           <button
             className="btn text-center"

@@ -11,7 +11,7 @@ export const Blogs = () => {
     <div className="container ps-3">
       <div className="row justify-content-start">
         <div className="card col-md-4 mb-3 me-3" style={{ width: "18rem" }}>
-          <div className="card-body">
+          <div className="card-body blogs">
             <h5 className="card-title">
               <span>01</span> Blog Title
             </h5>

@@ -29,7 +29,7 @@ export const Footer = () => {
           <p>&copy; 2023 Get Hooked</p>
           &nbsp;
           <p>
-            Connect with us{" "}
+            Contact us{" "}
             <FontAwesomeIcon
               icon={faEnvelope}
               onClick={handleEmail}

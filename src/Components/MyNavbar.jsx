@@ -48,7 +48,7 @@ export const MyNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fw-semibold" to="/">
+                <Link className="nav-link fw-semibold" to="/about">
                   About
                 </Link>
               </li>

@@ -6,6 +6,9 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { CreatePost } from "./Components/CreatePost";
+import { UserProfile } from "./Components/UserProfile";
+import { PrivateRoute } from "./Components/PrivateRoute";
+import { ShowBlogs } from "./Components/ShowBlogs";
 
 function App() {
   return (
@@ -15,7 +18,12 @@ function App() {
           <Route index element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="/createPost" element={<CreatePost />}></Route>
+
+          <Route path="/dashboard" element={<PrivateRoute />}>
+            <Route path="blogPosts" element={<ShowBlogs />}></Route>
+            <Route path="createPost" element={<CreatePost />}></Route>
+            <Route path="userProfile" element={<UserProfile />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -24,21 +24,22 @@ export const MainHeroSection = () => {
   // Create post
   const navigate = useNavigate();
   const handleCreatePost = () => {
-    navigate("/createPost");
+    navigate("/dashboard/createPost");
   };
 
   //TO add fun() check if user is logged  in or if not then take him to login page.
   const scrollToElement = () => {
-    const element = document.querySelector(".blogs");
+    navigate("/dashboard/blogPosts");
+    // const element = document.querySelector(".blogs");
 
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    // if (element) {
+    //   element.scrollIntoView({ behavior: "smooth" });
+    // }
   };
 
   return (
     <>
-      <div className="container" style={mainContainer}>
+      <div className="container mb-4" style={mainContainer}>
         <h1 className="text-center beInspired">
           <span className="beInspired">Be Inspired</span>
         </h1>

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Base } from "./Base";
+import { loadCategories } from "../Services/Category_service";
 
 export const CreatePost = () => {
   // Posting blog-post
@@ -7,9 +8,25 @@ export const CreatePost = () => {
   const [postData, setPostData] = useState({
     title: "",
     slug: "",
+    summary: "",
     content: "",
-    category_id: "1",
+    category: {
+      id: "",
+    },
+    user: {
+      id: "",
+    },
   });
+
+  useEffect(() => {
+    loadCategories()
+      .then((data) => {
+        console.log(data.json);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,7 +35,19 @@ export const CreatePost = () => {
       [name]: value,
     });
 
-    console.log(postData.category_id);
+    console.log(postData.category.id);
+  };
+
+  const handleNestedInputChange = (e) => {
+    const { name, value } = e.target;
+    const [parent, field] = name.split(".");
+    setPostData((prevData) => ({
+      ...prevData,
+      [parent]: {
+        ...prevData[parent],
+        [field]: value,
+      },
+    }));
   };
 
   const handlePublishPost = async (e) => {
@@ -44,6 +73,8 @@ export const CreatePost = () => {
     }
   };
 
+  // Get categories
+
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
@@ -53,7 +84,10 @@ export const CreatePost = () => {
   return (
     <>
       <Base>
-        <div className="container createPost" style={{ width: "50vw" }}>
+        <div
+          className="container mb-5 createPost"
+          style={{ width: "50vw", height: "100vh" }}
+        >
           <br />
           <h1 className="text-center">Create Post</h1>
           <form onSubmit={handlePublishPost}>
@@ -103,18 +137,29 @@ export const CreatePost = () => {
               <label className="form-label">
                 <span className="fw-semibold">Category ID</span>
               </label>
+
+              <input
+                type="select"
+                id="category"
+                placeholder="Enter here"
+              ></input>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">
+                <span className="fw-semibold">User ID</span>
+              </label>
               <input
                 type="number"
-                name="category_id"
-                value={postData.category_id}
-                onChange={handleInputChange}
+                name="user_id"
+                value={postData.user.id}
+                onChange={handleNestedInputChange}
                 className="form-control"
-                id="category"
-                placeholder="Enter category Id"
+                id="user_id"
+                placeholder="Enter user Id"
               />
             </div>
 
-            <div style={centerDiv}>
+            <div className="mb-5" style={centerDiv}>
               <button className="btn me-5" id="myButton">
                 Edit
               </button>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { Base } from "./Base";
 import { loadCategories } from "../Services/Category_service";
@@ -18,10 +19,28 @@ export const CreatePost = () => {
     },
   });
 
+  const [selectedItem, setSelectedItem] = useState("");
+
+  const handleSelectChangeCategory = (e) => {
+    console.log(e.target.value);
+    setSelectedItem(e.target.value);
+    const { name, value } = e.target;
+    const [parent, field] = name.split(".");
+    setPostData((prevData) => ({
+      ...prevData,
+      [parent]: {
+        ...prevData[parent],
+        [field]: value,
+      },
+    }));
+  };
+
+  const [categories, setCategory] = useState([]);
   useEffect(() => {
     loadCategories()
       .then((data) => {
-        console.log(data.json);
+        console.log(data);
+        setCategory(data);
       })
       .catch((err) => {
         console.log(err);
@@ -138,11 +157,18 @@ export const CreatePost = () => {
                 <span className="fw-semibold">Category ID</span>
               </label>
 
-              <input
-                type="select"
-                id="category"
-                placeholder="Enter here"
-              ></input>
+              <select
+                value={selectedItem}
+                className="form-select"
+                onChange={handleSelectChangeCategory}
+              >
+                <option value="">Select an item</option>
+                {categories.map((item) => (
+                  <option key={item.id} name="category" value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="mb-3">
               <label className="form-label">
@@ -152,7 +178,7 @@ export const CreatePost = () => {
                 type="number"
                 name="user_id"
                 value={postData.user.id}
-                onChange={handleNestedInputChange}
+                onChange={handleInputChange}
                 className="form-control"
                 id="user_id"
                 placeholder="Enter user Id"

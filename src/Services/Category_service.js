@@ -8,6 +8,6 @@ export const loadCategories = ()=>{
         },
     })
         .then(response =>{
-            return response.data
+            return response.json()
         })
 }

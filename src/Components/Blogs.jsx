@@ -51,6 +51,8 @@ export const Blogs = () => {
       <div className="row justify-content-center">
         <div className="card col-12 mb-3 ">
           {/* Single blog post */}
+
+          {/* Fetched Blog Post */}
           <div className="card-body blogs">
             {posts.map((post) => (
               <div key={post.id}>

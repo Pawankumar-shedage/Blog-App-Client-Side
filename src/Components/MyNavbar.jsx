@@ -34,10 +34,10 @@ export const MyNavbar = () => {
           </button>
 
           <div
-            className="collapse navbar-collapse "
+            className="collapse navbar-collapse ms-5"
             id="navbarSupportedContent"
           >
-            <ul className="navbar-nav ms-5 mb-2 mb-lg-0">
+            <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link
                   className="nav-link  fw-semibold"

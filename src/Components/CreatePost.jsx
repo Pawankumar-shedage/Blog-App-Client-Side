@@ -21,18 +21,32 @@ export const CreatePost = () => {
 
   const [selectedItem, setSelectedItem] = useState("");
 
-  const handleSelectChangeCategory = (e) => {
-    console.log(e.target.value);
+  const updateCategoryID = (e) => {
     setSelectedItem(e.target.value);
-    const { name, value } = e.target;
-    const [parent, field] = name.split(".");
+    console.log(e);
     setPostData((prevData) => ({
       ...prevData,
-      [parent]: {
-        ...prevData[parent],
-        [field]: value,
+      category: {
+        ...prevData.category,
+        id: e.target.value,
       },
     }));
+
+    console.log(postData);
+  };
+
+  const updateUserID = (e) => {
+    setSelectedItem(e.target.value);
+    console.log(e);
+    setPostData((prevData) => ({
+      ...prevData,
+      category: {
+        ...prevData.category,
+        id: e.target.value,
+      },
+    }));
+
+    console.log(postData);
   };
 
   const [categories, setCategory] = useState([]);
@@ -55,18 +69,6 @@ export const CreatePost = () => {
     });
 
     console.log(postData.category.id);
-  };
-
-  const handleNestedInputChange = (e) => {
-    const { name, value } = e.target;
-    const [parent, field] = name.split(".");
-    setPostData((prevData) => ({
-      ...prevData,
-      [parent]: {
-        ...prevData[parent],
-        [field]: value,
-      },
-    }));
   };
 
   const handlePublishPost = async (e) => {
@@ -160,9 +162,9 @@ export const CreatePost = () => {
               <select
                 value={selectedItem}
                 className="form-select"
-                onChange={handleSelectChangeCategory}
+                onChange={(e) => updateCategoryID(e)}
               >
-                <option value="">Select an item</option>
+                <option value="Select an item">Select an item</option>
                 {categories.map((item) => (
                   <option key={item.id} name="category" value={item.id}>
                     {item.name}
@@ -174,15 +176,18 @@ export const CreatePost = () => {
               <label className="form-label">
                 <span className="fw-semibold">User ID</span>
               </label>
-              <input
-                type="number"
-                name="user_id"
-                value={postData.user.id}
-                onChange={handleInputChange}
-                className="form-control"
-                id="user_id"
-                placeholder="Enter user Id"
-              />
+              <select
+                value={selectedItem}
+                className="form-select"
+                onChange={(e) => updateUserID(e)}
+              >
+                <option value="Select an item">Select an item</option>
+                {categories.map((item) => (
+                  <option key={item.id} name="category" value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="mb-5" style={centerDiv}>

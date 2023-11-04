@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Base } from "../Components/Base";
+import { ErrorToast } from "../Components/Errors/ErrorToast";
 
 export const Login = () => {
   const centerDiv = {
@@ -12,7 +13,6 @@ export const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const navigate = useNavigate(); // Use useNavigate to handle navigation
 
   const handleLogin = async (e) => {
@@ -37,9 +37,11 @@ export const Login = () => {
       if (response.ok) {
         // Login successful, navigate to a protected route
         navigate("/");
+        console.log(response);
       } else {
         // Handle login error
         setError("Invalid username or password");
+        setShowError(true);
       }
     } catch (error) {
       // Handle network or other errors
@@ -47,6 +49,15 @@ export const Login = () => {
     }
   };
 
+  // ERRORS
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+
+  // --------------------------------RETURN STATEMENT------------------------------------------
   return (
     <>
       <Base>
@@ -92,7 +103,11 @@ export const Login = () => {
                 Create an account? <Link to="/register">Register</Link>
               </p>
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <ErrorToast
+              show={showError}
+              onClose={handleCloseError}
+              message={error}
+            ></ErrorToast>
           </form>
         </div>
       </Base>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/js/bootstrap.min.js";
@@ -10,6 +11,7 @@ import { UserProfile } from "./Components/UserProfile";
 import { PrivateRoute } from "./Components/PrivateRoute";
 import { ShowBlogs } from "./Components/ShowBlogs";
 import { About } from "./pages/About";
+import { useState } from "react";
 
 function App() {
   return (

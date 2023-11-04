@@ -1,122 +1,47 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
-import { Base } from "./Base";
-import { loadCategories } from "../Services/Category_service";
-import { getCurrentUserData } from "../Auth";
+import { useState } from "react";
+import { Base } from "../Base";
 
-export const CreatePost = ({ user_ID }) => {
-  // Posting blog-post
-
-  const user_IDD = user_ID;
-
-  const [postData, setPostData] = useState({
-    title: "",
-    slug: "",
-    summary: "",
-    content: "",
+const initialBlogPosts = [
+  {
+    title: "First Blog Post",
+    slug: "first-blog-post",
+    summary: "This is the summary of the first blog post.",
+    content: "This is the content of the first blog post.",
     category: {
-      id: "",
+      id: "1",
     },
     user: {
-      id: "",
+      id: "101",
     },
-  });
+  },
+  {
+    title: "Second Blog Post",
+    slug: "second-blog-post",
+    summary: "This is the summary of the second blog post.",
+    content: "This is the content of the second blog post.",
+    category: {
+      id: "2",
+    },
+    user: {
+      id: "102",
+    },
+  },
+  // Add three more objects here
+];
 
-  const [selectedItem, setSelectedItem] = useState("");
+export const CreateBlogPostT = () => {
+  const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
 
-  const updateCategoryID = (e) => {
-    setSelectedItem(e.target.value);
-    console.log(e);
-    setPostData((prevData) => ({
-      ...prevData,
-      category: {
-        ...prevData.category,
-        id: e.target.value,
-      },
-      user: {
-        ...prevData,
-        id: user_IDD,
-      },
-    }));
-
-    console.log(postData);
+  const handleInputChange = (index, field, value) => {
+    const updatedBlogPosts = [...blogPosts];
+    updatedBlogPosts[index] = {
+      ...updatedBlogPosts[index],
+      [field]: value,
+    };
+    setBlogPosts(updatedBlogPosts);
   };
 
-  //------------------ USER  userID
-
-  //user {object}
-
-  // const updateUserID = (e) => {
-  //   // console.log(e);
-  //   setPostData((prevData) => ({
-  //     ...prevData,
-  //     user: {
-  //       ...prevData.category,
-  //       id: userId,
-  //     },
-  //   }));
-
-  //   console.log(postData);
-  // };
-
-  // ---------------CATEGORIES---------------
-
-  const [categories, setCategory] = useState([]);
-  useEffect(() => {
-    loadCategories()
-      .then((data) => {
-        console.log(data);
-        setCategory(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // INPUT FIELD
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPostData({
-      ...postData,
-      [name]: value,
-    });
-
-    console.log(postData.category.id);
-  };
-
-  // -----------------------------PUBLISH POST---------------
-  const handlePublishPost = async (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
-
-    try {
-      const response = await fetch("http://localhost:8080/api/posts/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (!response.ok) {
-        console.error("Failed to post data");
-      } else {
-        console.log("Data sent successfully ", response);
-      }
-    } catch (error) {
-      console.log("An error occurred while posting data:", error);
-    }
-  };
-
-  const centerDiv = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  };
-
-  // ----------------RETURN STATEMENT----------------
+  // ----------------------RETURN STATEMENT-----------
   return (
     <>
       <Base>
@@ -125,7 +50,10 @@ export const CreatePost = ({ user_ID }) => {
           style={{ width: "50vw", height: "100vh" }}
         >
           <br />
+          {/* HEADING */}
           <h1 className="text-center">Create Post</h1>
+
+          {/* Form */}
           <form onSubmit={handlePublishPost}>
             <div className=" mb-3">
               <label className="form-label">
@@ -187,20 +115,23 @@ export const CreatePost = ({ user_ID }) => {
                 ))}
               </select>
             </div>
-            {/* <div className="mb-3">
+            <div className="mb-3">
               <label className="form-label">
                 <span className="fw-semibold">User ID</span>
               </label>
-              <select value={userId} className="form-select">
+              <select
+                value={userId}
+                className="form-select"
+                onChange={updateUserID}
+              >
                 <option value="Select an item">Select an item</option>
 
-                <option name="category" value={userId}>
-                  {userId}
+                <option name="category" value={user.id}>
+                  {user.id}
                 </option>
               </select>
-            </div> */}
+            </div>
 
-            {/* --------BTNS */}
             <div className="mb-5" style={centerDiv}>
               <button className="btn me-5" id="myButton">
                 Edit

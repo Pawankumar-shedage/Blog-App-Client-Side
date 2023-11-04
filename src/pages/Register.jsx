@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Base } from "../Components/Base";
 import { ErrorToast } from "../Components/Errors/ErrorToast";
+import { CreatePost } from "../Components/CreatePost";
 
 export const Register = () => {
+  //
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
@@ -29,18 +32,27 @@ export const Register = () => {
 
     try {
       // Send a POST request to your register endpoint
-      const response = await fetch("http://localhost:8080/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "http://localhost:8080/users/registerUserId",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
 
       if (response.ok) {
         // Registration successful, navigate to the login page
         navigate("/login");
-        console.log("registered successfully", response.json());
+        const data1 = await response.json();
+
+        //
+        console.log("registered successfully,USERID", data1);
+
+        <CreatePost user_ID={data1}></CreatePost>;
+        //
       } else {
         // Handle registration error
         setError("Registration failed. Please check your input.");
@@ -51,6 +63,15 @@ export const Register = () => {
       console.error("Registration error:", error);
     }
   };
+
+  // const userId = fetch(`http://localhost:8080/users/registerUserId`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Process the user data
+  //     console.log(data);
+  //   });
+
+  // console.log("USER ID ::", userId);
 
   // ERRORS
   const [error, setError] = useState("");

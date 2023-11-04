@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Base } from "../Components/Base";
 import { ErrorToast } from "../Components/Errors/ErrorToast";
+import { doLogin } from "../Auth";
 
 export const Login = () => {
+  // Styles
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
@@ -24,9 +27,10 @@ export const Login = () => {
       password,
     };
 
+    console.log("login info", user);
     try {
       // Send a POST request to your login endpoint
-      const response = await fetch("http://localhost:8080/users/login", {
+      const responseToken = await fetch("http://localhost:8080/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,19 +38,35 @@ export const Login = () => {
         body: JSON.stringify(user),
       });
 
-      if (response.ok) {
-        // Login successful, navigate to a protected route
-        navigate("/");
-        console.log(response);
-      } else {
-        // Handle login error
+      if (responseToken.ok) {
+        console.log("Login responseToken, JWT TOKEN", responseToken);
+
+        //saving data to local storage
+        doLogin(responseToken, () => {
+          console.log("LOGIN details saved in local storage.");
+
+          // Login successful, navigate to a protected route
+          navigate("/");
+        });
+      } else if (responseToken.status == 401 || responseToken.status == 404) {
         setError("Invalid username or password");
         setShowError(true);
+
+        console.log("Local storage: ", localStorage);
+      } else {
+        // Handle login error
+        console.log("Something went wrong");
       }
     } catch (error) {
       // Handle network or other errors
       console.error("Login error:", error);
     }
+  };
+
+  //RESET Fields
+  const resetFields = () => {
+    setUsername("");
+    setPassword("");
   };
 
   // ERRORS
@@ -94,9 +114,18 @@ export const Login = () => {
             </div>
 
             <div style={centerDiv}>
-              <button type="submit" className="btn text-center" id="myButton">
-                Submit
-              </button>
+              <div>
+                <button type="submit" className="btn text-center" id="myButton">
+                  Submit
+                </button>
+                &nbsp;
+                <button
+                  onClick={resetFields}
+                  className="btn text-center myButton"
+                >
+                  Reset
+                </button>
+              </div>
               <br />
               <p>OR</p>
               <p>

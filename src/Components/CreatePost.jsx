@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Base } from "./Base";
 import { loadCategories } from "../Services/Category_service";
+import { getCurrentUserData } from "../Auth";
 
 export const CreatePost = () => {
   // Posting blog-post
@@ -35,19 +36,36 @@ export const CreatePost = () => {
     console.log(postData);
   };
 
-  const updateUserID = (e) => {
-    setSelectedItem(e.target.value);
-    console.log(e);
+  //------------------ USER  userID
+
+  //user {object}
+  const userDetails = getCurrentUserData();
+  const userId = userDetails.id;
+
+  if (userId != null) {
     setPostData((prevData) => ({
       ...prevData,
-      category: {
+      user: {
         ...prevData.category,
-        id: e.target.value,
+        id: userId,
       },
     }));
+  }
 
-    console.log(postData);
-  };
+  // const updateUserID = (e) => {
+  //   // console.log(e);
+  //   setPostData((prevData) => ({
+  //     ...prevData,
+  //     user: {
+  //       ...prevData.category,
+  //       id: userId,
+  //     },
+  //   }));
+
+  //   console.log(postData);
+  // };
+
+  // ---------------CATEGORIES---------------
 
   const [categories, setCategory] = useState([]);
   useEffect(() => {
@@ -61,6 +79,7 @@ export const CreatePost = () => {
       });
   }, []);
 
+  // INPUT FIELD
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPostData({
@@ -71,6 +90,7 @@ export const CreatePost = () => {
     console.log(postData.category.id);
   };
 
+  // -----------------------------PUBLISH POST---------------
   const handlePublishPost = async (e) => {
     e.preventDefault();
     console.log(e.target.value);
@@ -94,14 +114,14 @@ export const CreatePost = () => {
     }
   };
 
-  // Get categories
-
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
   };
+
+  // ----------------RETURN STATEMENT----------------
   return (
     <>
       <Base>
@@ -176,17 +196,12 @@ export const CreatePost = () => {
               <label className="form-label">
                 <span className="fw-semibold">User ID</span>
               </label>
-              <select
-                value={selectedItem}
-                className="form-select"
-                onChange={(e) => updateUserID(e)}
-              >
+              <select value={userId} className="form-select">
                 <option value="Select an item">Select an item</option>
-                {categories.map((item) => (
-                  <option key={item.id} name="category" value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
+
+                <option name="category" value={userId}>
+                  {userId}
+                </option>
               </select>
             </div>
 

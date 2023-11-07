@@ -20,7 +20,7 @@ export const MyNavbar = () => {
     // setUserProfile(getCurrentUserData);
   }, [login]);
 
-  console.log(login);
+  // console.log(login);
 
   // ------------LOGOUT
   const handleLogout = () => {

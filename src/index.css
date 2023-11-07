@@ -52,12 +52,23 @@ body{
     font-size: 48px;
 }
 
+/* ----------Password container */
+.password-container{
+    position: relative;
+}
+
+.eye-icon{
+    position: absolute;
+    top:20%;
+    right: 4%;
+}
+
 /* footer */
 #emailBtn:hover{
     cursor: pointer;
 }
 
-/* Media Queries for screen */
+/*-----------Media Queries for screen */
 
 @media (max-width: 1400px) {
     .beInspired{

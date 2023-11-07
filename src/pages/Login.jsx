@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Base } from "../Components/Base";
 import { ErrorToast } from "../Components/Errors/ErrorToast";
 import { doLogin } from "../Auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export const Login = () => {
   // Styles
@@ -105,6 +107,12 @@ export const Login = () => {
     setShowError(false);
   };
 
+  // ---Password
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
+
   // --------------------------------RETURN STATEMENT------------------------------------------
   return (
     <>
@@ -131,14 +139,23 @@ export const Login = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                required
-                id="exampleInputPassword1"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="d-flex  password-container">
+                <input
+                  type={passwordVisibility ? "text" : "password"}
+                  className="form-control"
+                  required
+                  id="exampleInputPassword1"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <div className="eye-icon" onClick={togglePasswordVisibility}>
+                  {passwordVisibility ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
+                </div>
+              </div>
             </div>
 
             <div style={centerDiv}>

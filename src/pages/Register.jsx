@@ -6,7 +6,7 @@ import { ErrorToast } from "../Components/Errors/ErrorToast";
 import { CreatePost } from "../Components/CreatePost";
 
 export const Register = () => {
-  //
+  //Custom style.
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
@@ -19,7 +19,9 @@ export const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState(0);
 
+  //-----------------------HANDLE REGISTER()
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -28,30 +30,30 @@ export const Register = () => {
       username,
       email,
       password,
+      userId,
     };
 
     try {
       // Send a POST request to your register endpoint
-      const response = await fetch(
-        "http://localhost:8080/users/registerUserId",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch("http://localhost:8080/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
       if (response.ok) {
         // Registration successful, navigate to the login page
-        navigate("/login");
         const data1 = await response.json();
 
         //
+        setUserId(data1);
         console.log("registered successfully,USERID", data1);
 
-        <CreatePost user_ID={data1}></CreatePost>;
+        sendDataToChild(data1);
+        // <CreatePost user_ID={data1}></CreatePost>;
+        navigate("/login");
         //
       } else {
         // Handle registration error
@@ -64,21 +66,17 @@ export const Register = () => {
     }
   };
 
-  // const userId = fetch(`http://localhost:8080/users/registerUserId`)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Process the user data
-  //     console.log(data);
-  //   });
-
-  // console.log("USER ID ::", userId);
-
   // ERRORS
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
 
   const handleCloseError = () => {
     setShowError(false);
+  };
+
+  const sendDataToChild = (data) => {
+    console.log("data sent ", data);
+    <CreatePost user_ID={data}></CreatePost>;
   };
 
   return (
@@ -100,6 +98,7 @@ export const Register = () => {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -110,6 +109,7 @@ export const Register = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -120,8 +120,11 @@ export const Register = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
+            {/*  */}
+            {/* <CreatePost user_ID={userId}></CreatePost>; */}
             <div className="mb-3 form-check">
               <input
                 type="checkbox"

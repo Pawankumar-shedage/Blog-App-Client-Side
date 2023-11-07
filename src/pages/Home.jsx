@@ -9,11 +9,9 @@ export const Home = () => {
     <>
       <Base>
         <MainHeroSection />
-
-        {/* Blogs */}
+        <Blogs />
         <br />
         {/* <Blogs /> */}
-
         {/* <Categories /> */}
       </Base>
     </>

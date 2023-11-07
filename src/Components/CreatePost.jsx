@@ -5,10 +5,8 @@ import { Base } from "./Base";
 import { loadCategories } from "../Services/Category_service";
 import { getCurrentUserData } from "../Auth";
 
-export const CreatePost = ({ user_ID }) => {
+export const CreatePost = () => {
   // Posting blog-post
-
-  const user_IDD = user_ID;
 
   const [postData, setPostData] = useState({
     title: "",
@@ -23,6 +21,8 @@ export const CreatePost = ({ user_ID }) => {
     },
   });
 
+  console.log(postData);
+
   const [selectedItem, setSelectedItem] = useState("");
 
   const updateCategoryID = (e) => {
@@ -34,13 +34,9 @@ export const CreatePost = ({ user_ID }) => {
         ...prevData.category,
         id: e.target.value,
       },
-      user: {
-        ...prevData,
-        id: user_IDD,
-      },
     }));
 
-    console.log(postData);
+    console.log("POST DATA: ", postData);
   };
 
   //------------------ USER  userID

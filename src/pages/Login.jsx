@@ -16,50 +16,82 @@ export const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
   const navigate = useNavigate(); // Use useNavigate to handle navigation
+  // ERRORS
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/users/${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData); // Save the user data to the state
+      } else {
+        // Handle error
+        const errorMessage = await response.text();
+        setError(errorMessage);
+        setShowError(true);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error("User data retrieval error:", error);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Create a user object with username and password
-    const user = {
-      username,
-      password,
-    };
-
-    console.log("login info", user);
-    try {
-      // Send a POST request to your login endpoint
-      const responseToken = await fetch("http://localhost:8080/users/login", {
+    // Send a POST request to your login endpoint
+    const response = await fetch(
+      "http://localhost:8080/api/auth/authenticate",
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
-      });
-
-      if (responseToken.ok) {
-        console.log("Login responseToken, JWT TOKEN", responseToken);
-
-        //saving data to local storage
-        doLogin(responseToken, () => {
-          console.log("LOGIN details saved in local storage.");
-
-          // Login successful, navigate to a protected route
-          navigate("/");
-        });
-      } else if (responseToken.status == 401 || responseToken.status == 404) {
-        setError("Invalid username or password");
-        setShowError(true);
-
-        console.log("Local storage: ", localStorage);
-      } else {
-        // Handle login error
-        console.log("Something went wrong");
+        body: JSON.stringify({
+          userName: username,
+          userPassword: password,
+        }),
       }
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Login error:", error);
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const token = data.token; // Extract the token from the response
+      setToken(token);
+
+      console.log(JSON.stringify(data), "  token ", token, localStorage);
+
+      localStorage.setItem("token", token);
+      getUser();
+
+      //do login.
+      doLogin(token, () => {
+        navigate("/");
+      });
+    } else {
+      // Handle error
+      const errorMessage = await response.text();
+      setError(errorMessage);
+      setShowError(true);
     }
   };
 
@@ -68,10 +100,6 @@ export const Login = () => {
     setUsername("");
     setPassword("");
   };
-
-  // ERRORS
-  const [error, setError] = useState("");
-  const [showError, setShowError] = useState(false);
 
   const handleCloseError = () => {
     setShowError(false);

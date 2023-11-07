@@ -1,6 +1,9 @@
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+/* eslint-disable no-unused-vars */
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
+import { doLogout, getCurrentUserData, isUserLoggedIn } from "../Auth/index";
+import { useEffect, useState } from "react";
 
 export const MyNavbar = () => {
   const navigate = useNavigate();
@@ -9,6 +12,26 @@ export const MyNavbar = () => {
     navigate("/dashboard/userProfile");
   };
 
+  const [login, setLogin] = useState(false);
+  // const [userProfile, setUserProfile] = useState("");
+
+  useEffect(() => {
+    setLogin(isUserLoggedIn());
+    // setUserProfile(getCurrentUserData);
+  }, [login]);
+
+  console.log(login);
+
+  // ------------LOGOUT
+  const handleLogout = () => {
+    console.log("Loggin out ...");
+    doLogout(() => {
+      setLogin(false);
+      navigate("/");
+    });
+  };
+
+  // ---------------------RETURN
   return (
     <>
       <nav
@@ -16,8 +39,8 @@ export const MyNavbar = () => {
         style={{ backgroundColor: "#FFC017" }}
         // style={{ display: "flex", justifyContent: "space-evenly" }}
       >
-        <div className="container">
-          <Link className="navbar-brand me-5  pe-5 fw-bold fs-2" to="#">
+        <div className="container mx-5 ">
+          <Link className="navbar-brand  fw-bold fs-2" to="#">
             Get Hooked
           </Link>
 
@@ -32,46 +55,70 @@ export const MyNavbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+        </div>
 
-          <div
-            className="collapse navbar-collapse ms-5"
-            id="navbarSupportedContent"
-          >
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  className="nav-link  fw-semibold"
-                  aria-current="page"
-                  to="/"
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link fw-semibold" to="/about">
-                  About
-                </Link>
-              </li>
+        {/* Collapseable */}
+        <div
+          className="collapse navbar-collapse me-5 "
+          id="navbarSupportedContent"
+        >
+          <ul className="navbar-nav mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link
+                className="nav-link  fw-semibold"
+                aria-current="page"
+                to="/"
+              >
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link fw-semibold" to="/about">
+                About
+              </Link>
+            </li>
+
+            {/* temporary. */}
+            <li className="nav-item">
+              <Link className="nav-link fw-semibold" to="/login">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link fw-semibold" to="/register">
+                SignUp
+              </Link>
+            </li>
+            <br />
+          </ul>
+
+          {/* when user is not logged in */}
+          {!login && (
+            <>
               <li className="nav-item">
                 <Link className="nav-link fw-semibold" to="/login">
                   Login
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link fw-semibold" to="/register">
+                  SignUp
+                </Link>
+              </li>
+            </>
+          )}
 
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control  fw-light "
-                  style={{ borderRadius: "100px" }}
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn" type="submit">
-                  <FontAwesomeIcon icon={faSearch} />
-                </button>
-                &nbsp;&nbsp;
-              </form>
-              <br />
+          {/* Logout and access user profile. (if user is already logged in)*/}
+          {login && (
+            <>
+              <button
+                className="btn  fw-regular"
+                onClick={handleLogout}
+                id="myButton"
+              >
+                Logout
+              </button>
+              &nbsp;
               <button
                 className="btn  fw-regular"
                 onClick={handleUserProfile}
@@ -79,12 +126,8 @@ export const MyNavbar = () => {
               >
                 <FontAwesomeIcon icon={faUser} className="text-start" />
               </button>
-              {/* <button
-                className=" handleUserProfileButton"
-                onClick={handleUserProfile}
-              ></button> */}
-            </ul>
-          </div>
+            </>
+          )}
         </div>
       </nav>
     </>

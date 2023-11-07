@@ -1,7 +1,7 @@
 //using fetch to get all categories.
 
 export const loadCategories = ()=>{
-    return fetch("http://localhost:8080/categories",{
+    return fetch("http://localhost:8080/api/categories",{
         method:'GET',
         headers:{
             'Content-Type':'application/json',

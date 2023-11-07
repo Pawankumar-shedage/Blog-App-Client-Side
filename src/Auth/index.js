@@ -5,8 +5,9 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 
 // 1. to check isUserLoggedIn
 export const isUserLoggedIn = ()=>{
-    let data = localStorage.getItem("data");
+    let data = localStorage.getItem("token");
 
+    // return true;
     return ((data != null) ?  true : false )
 }
 
@@ -32,9 +33,10 @@ export const doLogout = (next)=>{
 //4 getUserData : Get current logged in user data
 
 export const getCurrentUserData = ()=>{
-    if(isUserLoggedIn){
+    if(isUserLoggedIn()){
         return JSON.parse(localStorage.getItem("data").user);
     }
-    else
-        return false;
+    else{
+        return undefined
+    }
 }

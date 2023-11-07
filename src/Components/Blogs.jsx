@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 /* eslint-disable no-unused-vars */
 export const Blogs = () => {
@@ -33,7 +34,7 @@ export const Blogs = () => {
   // Post Data . From Server
   const [posts, setPosts] = useState([
     {
-      id: "01",
+      id: 1,
       user_id: 1,
       userName: "Pawankumar Shedage",
       createdat: "12 Novembar 2023",
@@ -42,7 +43,7 @@ export const Blogs = () => {
         "The field of artificial intelligence has seen remarkable advancements in recent years, and one of the latest breakthroughs is the launch of ChatGPT Turbo. This cutting-edge AI model is designed to take conversational AI to the next level. With its enhanced capabilities, ChatGPT Turbo opens up new possibilities for natural language understanding and generation. It promises to revolutionize how we interact with AI systems, making them even more useful and efficient. Stay tuned as we explore the exciting developments and potential applications of ChatGPT Turbo in the world of AI.",
     },
     {
-      id: "01",
+      id: 2,
       user_id: 1,
       userName: "Pawankumar Shedage",
       createdat: "12 Novembar 2023",
@@ -51,7 +52,7 @@ export const Blogs = () => {
         "The field of artificial intelligence has seen remarkable advancements in recent years, and one of the latest breakthroughs is the launch of ChatGPT Turbo. This cutting-edge AI model is designed to take conversational AI to the next level. With its enhanced capabilities, ChatGPT Turbo opens up new possibilities for natural language understanding and generation. It promises to revolutionize how we interact with AI systems, making them even more useful and efficient. Stay tuned as we explore the exciting developments and potential applications of ChatGPT Turbo in the world of AI.",
     },
     {
-      id: "01",
+      id: 15,
       user_id: 1,
       userName: "Pawankumar Shedage",
       createdat: "12 Novembar 2023",
@@ -74,23 +75,37 @@ export const Blogs = () => {
     }
   }, []);
 
+  // const initialContent = posts.post.
+  const [showFullContent, setShowFullContent] = useState(false);
+
+  const handleReadMore = () => {
+    setShowFullContent(!showFullContent);
+  };
+
   // ------------------------RETRUN STATEMENT------------------
   return (
     <div className="container ps-3" style={{ marginBottom: "60px" }}>
       <div className="row justify-content-center">
+        {/* Single blog post */}
         {posts.map((post) => (
           <>
             <div className="card col-12 mb-3 ">
-              {/* Single blog post */}
-
-              {/* Fetched Blog Post */}
               <div className="card-body blogs ">
-                {/* mapping fetched data */}
-
                 <div className="" key={post.id}>
                   <h5 className="card-title">
-                    <span className="fs-3 fw-light">{post.id}</span> &nbsp;
-                    <span className="fs-3">{post.title}</span>
+                    {post.id < 10 ? (
+                      <span className="fs-3 fw-lighter text-secondary">
+                        {" "}
+                        0{post.id}
+                      </span>
+                    ) : (
+                      <span className="fs-3 fw-lighter text-secondary">
+                        {" "}
+                        {post.id}
+                      </span>
+                    )}
+                    &nbsp;
+                    <span className="fs-3 ">{post.title}</span>
                     {/* div for 'by user_name' & 'created at' */}
                     <br />
                     <div className="lh-1" style={centerDiv}>
@@ -157,12 +172,13 @@ export const Blogs = () => {
                     </button>
                   </div>
 
-                  <a
-                    href="/"
+                  <Link
                     className="readMore btn btn-secondary rounded-pill fw-regular"
+                    to="/"
+                    onClick={handleReadMore}
                   >
-                    Read more
-                  </a>
+                    {showFullContent ? "Read More" : "Read Less"}
+                  </Link>
                 </div>
               </div>
             </div>

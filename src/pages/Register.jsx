@@ -6,7 +6,7 @@ import { ErrorToast } from "../Components/Errors/ErrorToast";
 import { CreatePost } from "../Components/CreatePost";
 
 export const Register = () => {
-  //Custom style.
+  //
   const centerDiv = {
     display: "flex",
     justifyContent: "center",
@@ -17,66 +17,78 @@ export const Register = () => {
   const navigate = useNavigate(); // Initialize the navigate function
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userId, setUserId] = useState(0);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState("");
 
-  //-----------------------HANDLE REGISTER()
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    // Create a user object with username, email, and password
-    const user = {
-      username,
-      email,
-      password,
-      userId,
-    };
-
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
     try {
-      // Send a POST request to your register endpoint
-      const response = await fetch("http://localhost:8080/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/users/${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
-        // Registration successful, navigate to the login page
-        const data1 = await response.json();
-
-        //
-        setUserId(data1);
-        console.log("registered successfully,USERID", data1);
-
-        sendDataToChild(data1);
-        // <CreatePost user_ID={data1}></CreatePost>;
-        navigate("/login");
-        //
+        const userData = await response.json();
+        setUser(userData);
       } else {
-        // Handle registration error
-        setError("Registration failed. Please check your input.");
+        // Handle error
+        const errorMessage = await response.text();
+        setError(errorMessage);
         setShowError(true);
       }
     } catch (error) {
       // Handle network or other errors
-      console.error("Registration error:", error);
+      console.error("User data retrieval error:", error);
     }
   };
 
-  // ERRORS
-  const [error, setError] = useState("");
-  const [showError, setShowError] = useState(false);
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:8080/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: username,
+        email: email,
+        userPassword: password,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const token = data.token; // Extract the token from the response
+      setToken(token);
+      localStorage.setItem("token", token);
+      getUser();
+
+      alert("Registered Successfully");
+      navigate("/");
+    } else {
+      // Handle error
+      const errorMessage = await response.text();
+      setError(errorMessage);
+      setShowError(true);
+    }
+  };
 
   const handleCloseError = () => {
     setShowError(false);
-  };
-
-  const sendDataToChild = (data) => {
-    console.log("data sent ", data);
-    <CreatePost user_ID={data}></CreatePost>;
   };
 
   return (
@@ -98,7 +110,6 @@ export const Register = () => {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                required
               />
             </div>
             <div className="mb-3">
@@ -109,7 +120,6 @@ export const Register = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
             </div>
             <div className="mb-3">
@@ -120,11 +130,8 @@ export const Register = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
             </div>
-            {/*  */}
-            {/* <CreatePost user_ID={userId}></CreatePost>; */}
             <div className="mb-3 form-check">
               <input
                 type="checkbox"

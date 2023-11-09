@@ -32,8 +32,9 @@ export const BlogPost = ({ post }) => {
 
   // const initialContent = posts.post.
   const { content } = post;
+  console.log(content);
   const minLengthInChars = 300;
-  const initialContent = content.substring(0, minLengthInChars);
+  const initialContent = post.content.substring(0, minLengthInChars);
   const [showFullContent, setShowFullContent] = useState(false);
 
   const handleReadMore = () => {
@@ -64,10 +65,11 @@ export const BlogPost = ({ post }) => {
               <br />
               <div className="lh-1" style={centerDiv}>
                 <p className="fs-6 fw-light my-3">
-                  <small> by {post.userName}</small>
+                  {/* temp adding, slug instead of userName */}
+                  <small>{post.slug}</small>
                 </p>
                 <p className="fs-6 fw-light my-3">
-                  <small>{post.createdat}</small>
+                  <small>{post.createtedAt}</small>
                 </p>
               </div>
             </h5>

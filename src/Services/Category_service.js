@@ -6,8 +6,9 @@ export const loadCategories = ()=>{
         headers:{
             'Content-Type':'application/json',
         },
+     })
+    .then(response =>{
+        console.log("Category",response)
+        return response.json();
     })
-        .then(response =>{
-            return response.json()
-        })
 }

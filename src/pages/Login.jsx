@@ -44,6 +44,7 @@ export const Login = () => {
 
       if (response.ok) {
         const userData = await response.json();
+        // console.log("userData", userData);
         setUser(userData); // Save the user data to the state
       } else {
         // Handle error
@@ -82,13 +83,16 @@ export const Login = () => {
 
       console.log(JSON.stringify(data), "  token ", token, localStorage);
 
+      const user_id = data.user;
+      console.log("USER Id:", user_id, localStorage);
+      localStorage.setItem("user_id", user_id);
       localStorage.setItem("token", token);
       getUser();
 
       //do login.
-      doLogin(token, () => {
-        navigate("/");
-      });
+      // doLogin(token, () => {
+      //   navigate("/");
+      // });
     } else {
       // Handle error
       const errorMessage = await response.text();

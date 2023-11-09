@@ -8,6 +8,9 @@ import { getCurrentUserData } from "../Auth";
 export const CreatePost = () => {
   // Posting blog-post
 
+  const user_id = localStorage.getItem("user_id");
+  console.log(user_id);
+
   const [postData, setPostData] = useState({
     title: "",
     slug: "",
@@ -27,12 +30,17 @@ export const CreatePost = () => {
 
   const updateCategoryID = (e) => {
     setSelectedItem(e.target.value);
-    console.log(e);
+    console.log(e.target.value);
+
     setPostData((prevData) => ({
       ...prevData,
       category: {
         ...prevData.category,
         id: e.target.value,
+      },
+      user: {
+        ...prevData.user,
+        id: user_id,
       },
     }));
 
@@ -40,21 +48,6 @@ export const CreatePost = () => {
   };
 
   //------------------ USER  userID
-
-  //user {object}
-
-  // const updateUserID = (e) => {
-  //   // console.log(e);
-  //   setPostData((prevData) => ({
-  //     ...prevData,
-  //     user: {
-  //       ...prevData.category,
-  //       id: userId,
-  //     },
-  //   }));
-
-  //   console.log(postData);
-  // };
 
   // ---------------CATEGORIES---------------
 

@@ -69,7 +69,7 @@ export const BlogPost = ({ post }) => {
                   <small>{post.slug}</small>
                 </p>
                 <p className="fs-6 fw-light my-3">
-                  <small>{post.createtedAt}</small>
+                  <small>{post.createdat}</small>
                 </p>
               </div>
             </h5>

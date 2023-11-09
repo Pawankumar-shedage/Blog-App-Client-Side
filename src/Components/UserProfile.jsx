@@ -128,6 +128,7 @@ export const UserProfile = () => {
   // },
 
   // fetching data from server.
+
   const fetchUserDetails = async (userId) => {
     try {
       const response = await fetch(`http://localhost:8080/api/users/${userId}`);

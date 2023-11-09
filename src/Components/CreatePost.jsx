@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { Base } from "./Base";
 import { loadCategories } from "../Services/Category_service";
 import { getCurrentUserData } from "../Auth";
+import { useNavigate } from "react-router-dom";
 
 export const CreatePost = () => {
   // Posting blog-post
+
+  const navigate = useNavigate();
 
   const user_id = localStorage.getItem("user_id");
   const currentDate = new Date();
@@ -103,8 +106,10 @@ export const CreatePost = () => {
     } catch (error) {
       console.log("An error occurred while posting data:", error);
     }
+    navigate("/dashboard/blogPosts");
   };
 
+  // styles
   const centerDiv = {
     display: "flex",
     justifyContent: "center",

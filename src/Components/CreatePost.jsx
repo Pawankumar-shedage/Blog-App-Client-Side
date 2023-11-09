@@ -9,7 +9,15 @@ export const CreatePost = () => {
   // Posting blog-post
 
   const user_id = localStorage.getItem("user_id");
-  console.log(user_id);
+  const currentDate = new Date();
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const createdAt = currentDate.toLocaleDateString("en-US", options);
+
+  console.log(user_id, createdAt);
 
   const [postData, setPostData] = useState({
     title: "",
@@ -22,11 +30,14 @@ export const CreatePost = () => {
     user: {
       id: "",
     },
+    createdAt: createdAt,
   });
 
   console.log(postData);
 
   const [selectedItem, setSelectedItem] = useState("");
+
+  // ---------------CATEGORIES---------------
 
   const updateCategoryID = (e) => {
     setSelectedItem(e.target.value);
@@ -46,10 +57,6 @@ export const CreatePost = () => {
 
     console.log("POST DATA: ", postData);
   };
-
-  //------------------ USER  userID
-
-  // ---------------CATEGORIES---------------
 
   const [categories, setCategory] = useState([]);
   useEffect(() => {
@@ -71,7 +78,7 @@ export const CreatePost = () => {
       [name]: value,
     });
 
-    console.log(postData.category.id);
+    // console.log(postData.category.id);
   };
 
   // -----------------------------PUBLISH POST---------------

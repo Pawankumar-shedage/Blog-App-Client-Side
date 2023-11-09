@@ -8,7 +8,7 @@ export const loadCategories = ()=>{
         },
      })
     .then(response =>{
-        console.log("Category",response)
+        // console.log("Category",response)
         return response.json();
     })
 }

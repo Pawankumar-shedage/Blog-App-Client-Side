@@ -11,6 +11,7 @@ export const Home = () => {
         <MainHeroSection />
         <Blogs />
         <br />
+
         {/* <Blogs /> */}
         {/* <Categories /> */}
       </Base>
